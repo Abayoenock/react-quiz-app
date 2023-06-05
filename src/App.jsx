@@ -8,6 +8,11 @@ function App() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [score, setScore] = useState(0)
   const [userAnswers, setUserAnswers] = useState([])
+  const [lastAttempts, setLastAttempts] = useState(
+    localStorage.getItem("last_attempts")
+      ? JSON.parse(localStorage.getItem("last_attempts"))
+      : []
+  )
   const questionObject = questions.filter((question, index) => {
     if (index === currentQuestion) {
       return question
@@ -37,12 +42,18 @@ function App() {
         return userAnswersU.concat(userInputs)
       })
     }
+    console.log(userAnswers.length)
+    if (userAnswers.length == 9) {
+      localStorage.setItem(
+        "last_attempts",
+        JSON.stringify([...lastAttempts, userAnswers])
+      )
+    }
 
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(() => {
         return currentQuestion + 1
       })
-    } else {
     }
   }
 
