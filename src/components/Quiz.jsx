@@ -1,5 +1,6 @@
 import React from "react"
-
+import { toast } from "react-toastify"
+import { Slide, Zoom, Flip, Bounce } from "react-toastify"
 function Quiz({ id, question, options, answer, submitAnswer, questions }) {
   return (
     <form
@@ -10,7 +11,19 @@ function Quiz({ id, question, options, answer, submitAnswer, questions }) {
         const formData = new FormData(e.currentTarget)
         const choosen = [...formData.values()]
         if (choosen.length == 0) {
-          alert("Please select a choice")
+          //alert("Please select a choice")
+          // show an alert when the user has not selected an answer
+          toast.warn("Please choose your answer", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Flip,
+          })
           return
         }
         submitAnswer(choosen, id)
