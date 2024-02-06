@@ -23,6 +23,17 @@ function App() {
       return question
     }
   })
+  useEffect(() => {
+    if (userAnswers.length == 10) {
+      localStorage.setItem(
+        "last_attempts",
+        JSON.stringify([...lastAttempts, userAnswers])
+      )
+      setLastAttempts((lastAttempts) => {
+        return [...lastAttempts, userAnswers]
+      })
+    }
+  }, [userAnswers])
 
   const submitAnswer = (choosenAnswer) => {
     if (choosenAnswer[0] == questionObject[0].answer) {
@@ -47,16 +58,6 @@ function App() {
         return userAnswersU.concat(userInputs)
       })
     }
-    console.log(userAnswers.length)
-    if (userAnswers.length == 9) {
-      localStorage.setItem(
-        "last_attempts",
-        JSON.stringify([...lastAttempts, userAnswers])
-      )
-      setLastAttempts((lastAttempts) => {
-        return [...lastAttempts, userAnswers]
-      })
-    }
 
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(() => {
@@ -70,8 +71,8 @@ function App() {
       <ToastContainer />
 
       {!attemptsShown && (
-        <div className=" w-[700px] relative  min-h-[300px] bg-[#ccc] bg-opacity-10 rounded-md p-4  backdrop-blur-sm my-[40px] ">
-          <h1>React quiz app </h1>
+        <div className=" w-[90%] md:w-[700px] mx-auto  relative  min-h-[300px] bg-[#ccc] bg-opacity-10 rounded-md p-4  backdrop-blur-sm my-[40px] ">
+          <h1 className="text-2xl mt-4 md:text-4xl">React quiz app </h1>
           <span
             className=" absolute bg-purple-600 backdrop-blur-sm bg-opacity-90 p-3 rounded-md -top-3 right-2 cursor-pointer transition-all duration-300 ease-in-out hover:bg-purple-800 hover:translate-x-1 "
             onClick={() => {
@@ -149,7 +150,7 @@ function App() {
       )}
 
       {attemptsShown && (
-        <div className="w-[700px] relative  min-h-[300px] bg-[#ccc] bg-opacity-10 rounded-md p-4  backdrop-blur-sm my-[40px]  ">
+        <div className=" min-w-[90%] mx-auto md:w-[700px] relative  min-h-[300px] bg-[#ccc] bg-opacity-10 rounded-md p-4   backdrop-blur-sm my-[40px]  ">
           <span
             className=" absolute bg-purple-600 backdrop-blur-sm bg-opacity-90 p-3 rounded-md -top-6 left-2 cursor-pointer transition-all duration-300 ease-in-out hover:bg-purple-800 hover:-translate-x-1 "
             onClick={() => {
@@ -162,7 +163,7 @@ function App() {
           <h1 className="text-white text-2xl mt-4 ">Your last quiz attempts</h1>
           <hr className="mt-2 border-slate-600 opacity-70 " />
           {!oneAttemptshown && (
-            <div className="w-full flex flex-col items-center justify-center p-4 gap-2 ">
+            <div className="w-full flex flex-col items-center justify-center p-1 md:p-4 gap-2 ">
               {lastAttempts.map((attempt, index) => {
                 return (
                   <div
